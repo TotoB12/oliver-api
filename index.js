@@ -7,7 +7,6 @@ const repoName = "TotoB12/oliver-images";
 
 function getMimeType(url) {
   const extension = url.split('?')[0].split('.').pop();
-  console.log(extension);
   const mimeTypes = {
     'jpg': 'image/jpeg',
     'jpeg': 'image/jpeg',
@@ -44,8 +43,6 @@ app.get("/", async (req, res) => {
     res.status(500).send("Error retrieving image");
   }
 });
-
-console.log(getMimeType("https://github.com/TotoB12/oliver-images/blob/main/images/P1040851.jpeg?raw=true"));
 
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
