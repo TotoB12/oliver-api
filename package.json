@@ -1,17 +1,12 @@
 {
-  "name": "nodejs",
+  "name": "oliver-images-api",
   "version": "1.0.0",
-  "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node index.js"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
   "dependencies": {
-    "@types/node": "^18.0.6",
-    "axios": "^1.6.8",
-    "express": "^4.19.2"
+    "express": "^4.17.1",
+    "axios": "^0.21.1"
   }
 }
