@@ -5,16 +5,40 @@ const port = process.env.PORT || 3000;
 
 const repoName = 'TotoB12/oliver-images';
 
+function getMimeType(url) {
+  const extension = url.split('.').pop();
+  const mimeTypes = {
+    'jpg': 'image/jpeg',
+    'jpeg': 'image/jpeg',
+    'png': 'image/png',
+    'gif': 'image/gif',
+    'bmp': 'image/bmp',
+    'tiff': 'image/tiff',
+    'webp': 'image/webp'
+  };
+  return mimeTypes[extension] || 'application/octet-stream';
+}
+
 app.get('/', async (req, res) => {
   try {
-    const response = await axios.get(`https://api.github.com/repos/${repoName}/contents/images/`);
+    const response = await axios.get(`https://api.github.com/repos/${repoName}/contents/images/`, {
+      headers: { 'Accept': 'application/vnd.github.v3+json' }
+    });
     const files = response.data.filter(file => file.type === 'file');
     const randomFile = files[Math.floor(Math.random() * files.length)];
-    res.redirect(randomFile.download_url);
-  } catch (error) {
-    res.status(500).send('Error retrieving images');
-  }
-});
+
+    const imageResponse = await axios.get(randomFile.download_url, {
+      responseType: 'arraybuffer'
+    });
+
+    const contentType = getMimeType(randomFile.name);
+
+    res.set('Content-Type', contentType);
+    res.send(imageResponse.data);
+    } catch (error) {
+    res.status(500).send('Error retrieving image');
+    }
+    });
 
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
